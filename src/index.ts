@@ -41,7 +41,9 @@ export default function axiosAdapter<T>() {
 
             const body = await invoke<number[]>("plugin:http|fetch_read_body", {rid});
 
-            const data = (config.responseType === 'json' || config.responseType === undefined) ? JSON.parse(new TextDecoder().decode(new Uint8Array(body))) : new TextDecoder().decode(new Uint8Array(body));
+            const isOk = response.status >= 200 && response.status < 300;
+
+            const data = (config.responseType === 'json' || config.responseType === undefined) && isOk ? JSON.parse(new TextDecoder().decode(new Uint8Array(body))) : new TextDecoder().decode(new Uint8Array(body));
 
             const axiosResponse: AxiosResponse<T> = {
                 data,
@@ -51,7 +53,7 @@ export default function axiosAdapter<T>() {
                 config: config as InternalAxiosRequestConfig
             };
 
-            if (response.status >= 200 && response.status < 300) {
+            if (isOk) {
                 return axiosResponse;
             } else {
                 const code = [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4];
