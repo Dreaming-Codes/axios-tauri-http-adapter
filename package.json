@@ -22,7 +22,7 @@
   "author": "DreamingCodes <me@dreaming.codes>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dreaming-Codes"
+    "url": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter"
   },
   "homepage": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter",
   "bugs": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter/issues",
