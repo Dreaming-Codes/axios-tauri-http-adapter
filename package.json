@@ -1,14 +1,8 @@
 {
   "name": "axios-tauri-http-adapter",
   "type": "module",
-  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    "default": {
-      "default": "./dist/index.d.ts",
-      "require": "./dist/index.js"
-    }
-  },
   "version": "1.0.2",
   "scripts": {
     "build": "bun run build.ts",
