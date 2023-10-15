@@ -9,7 +9,7 @@
       "require": "./dist/index.js"
     }
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "build": "bun run build.ts",
     "prepublish": "bun run build"
