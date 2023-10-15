@@ -3,6 +3,7 @@
   "type": "module",
   "main": "/dist/index.js",
   "types": "/dist/index.d.ts",
+  "version": "1.0.0",
   "scripts": {
     "build": "bun run build.ts",
     "prepublish": "bun run build"
@@ -19,6 +20,12 @@
   ],
   "license": "MIT",
   "author": "DreamingCodes <me@dreaming.codes>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dreaming-Codes"
+  },
+  "homepage": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter",
+  "bugs": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter/issues"
   "peerDependencies": {
     "axios": "^1.5.1",
     "@tauri-apps/api": "^2.0.0-alpha.8"
