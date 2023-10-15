@@ -39,6 +39,8 @@ Then add the plugin to your tauri config:
 Then add the adapter to your axios instance:
 
 ```js
+import axiosAdapter from "axios-tauri-http-adapter";
+
 const axiosClient = axios.create({
     adapter: axiosAdapter()
 })
