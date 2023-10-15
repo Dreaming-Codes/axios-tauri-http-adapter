@@ -42,6 +42,20 @@ Then add the plugin to your tauri config:
 }
 ```
 
+Then initialize the plugin in your tauri app:
+
+```rust
+// src-tauri/src/lib.rs or src-tauri/src/main.rs (it may differ depending on how you set up your tauri app)
+pub fn run() {
+    tauri::Builder::default()
+        // ...
+        .plugin(tauri_plugin_http::init())
+        // ...
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}
+```
+
 Then add the adapter to your axios instance:
 
 ```js
