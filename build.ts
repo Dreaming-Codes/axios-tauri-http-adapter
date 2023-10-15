@@ -6,6 +6,7 @@ await Bun.build({
     minify: true,
     target: 'node',
     format: 'esm',
+    sourcemap: "external",
     external: ["@tauri-apps/api", "axios", "http-status-codes"],
     plugins: [dts()]
 })
