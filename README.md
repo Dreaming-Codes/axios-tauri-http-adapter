@@ -20,19 +20,25 @@ Then add the official plugin to your cargo dependencies:
 ```toml
 # src-tauri/Cargo.toml
 [dependencies]
-...
+# ...
 tauri-plugin-http = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 ```
 
 Then add the plugin to your tauri config:
 
-```json
+```json5
 // src-tauri/tauri.conf.json
-"plugins": {
+{
+  // ...
+  "plugins": {
     "http": {
-        // Customize the scope as needed, this will allow all http requests
-        "scope": ["http://**", "https://**"]
+      // Customize the scope as needed, this will allow all http requests
+      "scope": [
+        "http://**",
+        "https://**"
+      ]
     }
+  }
 }
 ```
 
