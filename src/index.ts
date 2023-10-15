@@ -77,7 +77,7 @@ export default function axiosAdapter<T>() {
             } else {
                 const code = [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4];
                 const message = 'Request failed with status code ' + axiosResponse.status;
-                throw new AxiosError(message, code, config as InternalAxiosRequestConfig, {}, axiosResponse);
+                throw new AxiosError(message, code, config as InternalAxiosRequestConfig, requestData, axiosResponse);
             }
         } catch (error) {
             throw error;
