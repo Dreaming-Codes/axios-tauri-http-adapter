@@ -11,10 +11,14 @@ function getCorrectBodyType(data: unknown): number[] | null {
 
 function serializeParams(params: Record<string, any>): string {
     return Object.entries(params)
-        .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+        .map(([key, val]) => {
+            if (val === undefined || val === null) {
+                return encodeURIComponent(key);
+            }
+            return `${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
+        })
         .join('&');
 }
-
 
 function getCorrectUrl(baseURL: string | undefined, url: string | undefined, params?: Record<string, any>): string {
     let completeUrl = baseURL ? `${baseURL}${url}` : `${url}`;
