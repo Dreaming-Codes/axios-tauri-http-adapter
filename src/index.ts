@@ -12,7 +12,7 @@ function getCorrectBodyType(data: unknown): number[] | null {
 function serializeParams(params: Record<string, any>): string {
     return Object.entries(params)
         .map(([key, val]) => {
-            if (val === undefined || val === null) {
+            if (val === null) {
                 return encodeURIComponent(key);
             }
             return `${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
