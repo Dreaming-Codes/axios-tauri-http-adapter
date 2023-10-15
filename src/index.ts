@@ -3,9 +3,9 @@ import {AxiosError} from 'axios';
 import {getReasonPhrase} from 'http-status-codes';
 import {invoke} from "@tauri-apps/api";
 
-function getCorrectBodyType(data: unknown): BodyInit | null {
-    if (typeof data === 'string') return data;
-    if (typeof data === 'object') return JSON.stringify(data);
+function getCorrectBodyType(data: unknown): number[] | null {
+    if (typeof data === 'string') return Array.from(new TextEncoder().encode(data));
+    if (typeof data === 'object') return Array.from(new TextEncoder().encode(JSON.stringify(data)));
     return null;
 }
 
