@@ -11,6 +11,7 @@ function getCorrectBodyType(data: unknown): number[] | null {
 
 function serializeParams(params: Record<string, any>): string {
     return Object.entries(params)
+        .filter(([_, val]) => val !== undefined) // Exclude undefined values
         .map(([key, val]) => {
             if (val === null) {
                 return encodeURIComponent(key);
@@ -19,6 +20,7 @@ function serializeParams(params: Record<string, any>): string {
         })
         .join('&');
 }
+
 
 function getCorrectUrl(baseURL: string | undefined, url: string | undefined, params?: Record<string, any>): string {
     let completeUrl = baseURL ? `${baseURL}${url}` : `${url}`;
