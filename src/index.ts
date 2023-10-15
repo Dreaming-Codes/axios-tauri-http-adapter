@@ -33,60 +33,55 @@ function getCorrectUrl(baseURL: string | undefined, url: string | undefined, par
 
 export default function axiosAdapter<T>() {
     return async (config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
+        // Use filter to help remove undefined headers
+        const headers = Object.entries(config.headers || {})
+            .filter(([, value]) => value !== undefined);
+
+        const requestData = {
+            method: config.method?.toUpperCase(),
+            url: getCorrectUrl(config.baseURL, config.url, config.params),
+            headers,
+            data: getCorrectBodyType(config.data),
+        };
+
+        const rid = await invoke<number>("plugin:http|fetch", requestData);
+
+        interface FetchSendResponse {
+            status: number;
+            statusText: string;
+            headers: [[string, string]];
+            url: string;
+        }
+
+        const response = await invoke<FetchSendResponse>("plugin:http|fetch_send", {rid});
+
+        const body = await invoke<number[]>("plugin:http|fetch_read_body", {rid});
+
+        const isOk = response.status >= 200 && response.status < 300;
+
+        let stringData = new TextDecoder().decode(new Uint8Array(body));
+
+        let data;
         try {
+            data = (config.responseType === 'json' || config.responseType === undefined) ? JSON.parse(stringData) : stringData;
+        } catch (e) {
+            data = new TextDecoder().decode(new Uint8Array(body));
+        }
 
-            // Use filter to help remove undefined headers
-            const headers = Object.entries(config.headers || {})
-                .filter(([, value]) => value !== undefined);
+        const axiosResponse: AxiosResponse<T> = {
+            data,
+            status: response.status,
+            statusText: getReasonPhrase(response.status),
+            headers: Object.fromEntries(response.headers),
+            config: config as InternalAxiosRequestConfig
+        };
 
-            const requestData = {
-                method: config.method?.toUpperCase(),
-                url: getCorrectUrl(config.baseURL, config.url, config.params),
-                headers,
-                data: getCorrectBodyType(config.data),
-            };
-
-            const rid = await invoke<number>("plugin:http|fetch", requestData);
-
-            interface FetchSendResponse {
-                status: number;
-                statusText: string;
-                headers: [[string, string]];
-                url: string;
-            }
-
-            const response = await invoke<FetchSendResponse>("plugin:http|fetch_send", {rid});
-
-            const body = await invoke<number[]>("plugin:http|fetch_read_body", {rid});
-
-            const isOk = response.status >= 200 && response.status < 300;
-
-            let stringData = new TextDecoder().decode(new Uint8Array(body));
-
-            let data;
-            try {
-                data = (config.responseType === 'json' || config.responseType === undefined) ? JSON.parse(stringData) : stringData;
-            } catch (e) {
-                data = new TextDecoder().decode(new Uint8Array(body));
-            }
-
-            const axiosResponse: AxiosResponse<T> = {
-                data,
-                status: response.status,
-                statusText: getReasonPhrase(response.status),
-                headers: Object.fromEntries(response.headers),
-                config: config as InternalAxiosRequestConfig
-            };
-
-            if (isOk) {
-                return axiosResponse;
-            } else {
-                const code = [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4];
-                const message = 'Request failed with status code ' + axiosResponse.status;
-                throw new AxiosError(message, code, config as InternalAxiosRequestConfig, requestData, axiosResponse);
-            }
-        } catch (error) {
-            throw error;
+        if (isOk) {
+            return axiosResponse;
+        } else {
+            const code = [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4];
+            const message = 'Request failed with status code ' + axiosResponse.status;
+            throw new AxiosError(message, code, config as InternalAxiosRequestConfig, requestData, axiosResponse);
         }
     }
 }
