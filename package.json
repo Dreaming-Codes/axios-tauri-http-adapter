@@ -25,7 +25,7 @@
     "url": "https://github.com/Dreaming-Codes"
   },
   "homepage": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter",
-  "bugs": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter/issues"
+  "bugs": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter/issues",
   "peerDependencies": {
     "axios": "^1.5.1",
     "@tauri-apps/api": "^2.0.0-alpha.8"
