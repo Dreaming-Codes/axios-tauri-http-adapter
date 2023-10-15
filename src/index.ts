@@ -9,8 +9,20 @@ function getCorrectBodyType(data: unknown): number[] | null {
     return null;
 }
 
-function getCorrectUrl(baseURL: string | undefined, url: string | undefined): string {
-    return baseURL ? `${baseURL}${url}` : `${url}`;
+function serializeParams(params: Record<string, any>): string {
+    return Object.entries(params)
+        .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
+        .join('&');
+}
+
+
+function getCorrectUrl(baseURL: string | undefined, url: string | undefined, params?: Record<string, any>): string {
+    let completeUrl = baseURL ? `${baseURL}${url}` : `${url}`;
+    if (params) {
+        const serialized = serializeParams(params);
+        completeUrl += `?${serialized}`;
+    }
+    return completeUrl;
 }
 
 export default function axiosAdapter<T>() {
@@ -23,7 +35,7 @@ export default function axiosAdapter<T>() {
 
             const requestData = {
                 method: config.method?.toUpperCase(),
-                url: getCorrectUrl(config.baseURL, config.url),
+                url: getCorrectUrl(config.baseURL, config.url, config.params),
                 headers,
                 data: getCorrectBodyType(config.data),
             };
