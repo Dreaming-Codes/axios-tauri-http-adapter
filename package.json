@@ -3,7 +3,7 @@
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "scripts": {
     "build": "bun run build.ts",
     "prepublish": "bun run build"
