@@ -28,7 +28,7 @@
   "bugs": "https://github.com/Dreaming-Codes/axios-tauri-http-adapter/issues",
   "peerDependencies": {
     "axios": "^1.5.1",
-    "@tauri-apps/api": "^2.0.0-alpha.9"
+    "@tauri-apps/api": "^2.0.0-alpha.13"
   },
   "dependencies": {
     "http-status-codes": "^2.3.0"

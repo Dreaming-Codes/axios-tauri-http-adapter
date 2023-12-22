@@ -38,10 +38,12 @@ export default function axiosAdapter<T>() {
             .filter(([, value]) => value !== undefined);
 
         const requestData = {
-            method: config.method?.toUpperCase(),
-            url: getCorrectUrl(config.baseURL, config.url, config.params),
-            headers,
-            data: getCorrectBodyType(config.data),
+            clientConfig: {
+                method: config.method?.toUpperCase(),
+                url: getCorrectUrl(config.baseURL, config.url, config.params),
+                headers,
+                data: getCorrectBodyType(config.data),
+            }
         };
 
         const rid = await invoke<number>("plugin:http|fetch", requestData);
