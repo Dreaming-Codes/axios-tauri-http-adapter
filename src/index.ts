@@ -1,7 +1,7 @@
 import type {InternalAxiosRequestConfig, AxiosResponse, AxiosRequestConfig} from 'axios';
 import {AxiosError} from 'axios';
 import {getReasonPhrase} from 'http-status-codes';
-import {invoke} from "@tauri-apps/api/primitives";
+import {invoke} from "@tauri-apps/api/core";
 
 function getCorrectBodyType(data: unknown): number[] | null {
     if (typeof data === 'string') return Array.from(new TextEncoder().encode(data));
