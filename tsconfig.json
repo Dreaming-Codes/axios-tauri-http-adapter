@@ -1,19 +1,14 @@
 {
+  "include": ["src/index.ts"],
   "compilerOptions": {
+    "target": "es2021",
     "module": "esnext",
-    "target": "es2020",
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "strict": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "noEmit": true,
-    "strict": true,
-    "downlevelIteration": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": false,
-    "types": ["bun-types"]
-  }
+    "noEmit": true
+  },
+  "exclude": ["dist-js", "node_modules", "test/types"]
 }
