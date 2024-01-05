@@ -52,12 +52,13 @@ export default function axiosAdapter<T>() {
             status: number;
             statusText: string;
             headers: [[string, string]];
+            rid: number;
             url: string;
         }
 
         const response = await invoke<FetchSendResponse>("plugin:http|fetch_send", {rid});
 
-        const body = await invoke<number[]>("plugin:http|fetch_read_body", {rid});
+        const body = await invoke<number[]>("plugin:http|fetch_read_body", {rid: response.rid});
 
         const isOk = response.status >= 200 && response.status < 300;
 
