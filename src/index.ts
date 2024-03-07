@@ -1,7 +1,7 @@
-import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { AxiosError } from 'axios';
-import { getReasonPhrase } from 'http-status-codes';
-import { invoke } from "@tauri-apps/api/core";
+import type {AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
+import {AxiosError} from 'axios';
+import {getReasonPhrase} from 'http-status-codes';
+import {invoke} from "@tauri-apps/api/core";
 
 interface ClientConfig {
     method?: string;
@@ -77,9 +77,9 @@ export default function axiosAdapter<T>() {
             clientConfig: requestData,
         });
 
-        const response = await invoke<FetchSendResponse>("plugin:http|fetch_send", { rid });
+        const {message: response} = await invoke<{ message: FetchSendResponse }>("plugin:http|fetch_send", {rid});
 
-        const body = await invoke<number[]>("plugin:http|fetch_read_body", { rid: response.rid });
+        const {message: body} = await invoke<{ message: number[] }>("plugin:http|fetch_read_body", {rid: response.rid});
 
         const isOk = response.status >= 200 && response.status < 300;
 
